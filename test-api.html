@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test API Connection</title>
+</head>
+<body>
+    <h1>Test API Connection</h1>
+    <button onclick="testHealth()">Test Health Endpoint</button>
+    <button onclick="testLogin()">Test Login</button>
+    <pre id="result"></pre>
+
+    <script>
+        const API_URL = 'http://localhost:8000';
+        
+        async function testHealth() {
+            const result = document.getElementById('result');
+            try {
+                const response = await fetch(`${API_URL}/health`);
+                const data = await response.json();
+                result.textContent = `Health Check OK:\n${JSON.stringify(data, null, 2)}`;
+            } catch (error) {
+                result.textContent = `Error: ${error.message}`;
+            }
+        }
+
+        async function testLogin() {
+            const result = document.getElementById('result');
+            try {
+                const response = await fetch(`${API_URL}/api/login`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        email: 'ahmad.fauzi@eskul.test',
+                        password: 'password'
+                    })
+                });
+                const data = await response.json();
+                result.textContent = `Login Test:\n${JSON.stringify(data, null, 2)}`;
+            } catch (error) {
+                result.textContent = `Error: ${error.message}`;
+            }
+        }
+    </script>
+</body>
+</html>
